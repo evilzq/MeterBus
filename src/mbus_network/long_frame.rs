@@ -1,7 +1,8 @@
 use crate::checksum;
 
 use super::{
-    control::ControlInformation, data_type::DataTypes, MBUS_FRAME_LONG_START, MBUS_FRAME_STOP,
+    control::ControlInformation, data_type::DataTypes, frame::Frame, MBUS_FRAME_LONG_START,
+    MBUS_FRAME_STOP,
 };
 
 pub struct LongFrame<'a> {
@@ -18,6 +19,8 @@ pub struct LongFrame<'a> {
     pub crc: u8,
     pub stop: u8,
 }
+
+impl Frame for LongFrame<'_> {}
 
 impl<'a> LongFrame<'a> {
     pub fn get_length_in_bit_table(types: DataTypes) -> u8 {

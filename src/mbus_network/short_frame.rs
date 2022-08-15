@@ -1,6 +1,6 @@
 use crate::checksum;
 
-use super::{MBUS_FRAME_SHORT_START, MBUS_FRAME_STOP};
+use super::{frame::Frame, MBUS_FRAME_SHORT_START, MBUS_FRAME_STOP};
 
 pub struct ShortFrame {
     pub start: u8,
@@ -9,6 +9,8 @@ pub struct ShortFrame {
     pub crc: u8,
     pub stop: u8,
 }
+
+impl Frame for ShortFrame {}
 
 impl ShortFrame {
     pub fn new(control: u8, address: u8) -> Self {

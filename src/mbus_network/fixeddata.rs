@@ -1,5 +1,7 @@
 use num_enum::TryFromPrimitive;
 
+use super::{control::ControlInformation, frame::Frame};
+
 #[repr(u8)]
 #[derive(Debug, PartialEq, Eq, TryFromPrimitive)]
 pub enum FixedDataUnits {
@@ -68,3 +70,25 @@ pub enum FixedDataUnits {
     SameButHistoric = 0x3E, // same but historic
     WithoutUnits = 0x3F,    // without units
 }
+
+pub struct FixedDataLongFrame<'a> {
+    pub strat: u8,
+    pub control: u8,
+    pub address: u8,
+    pub control_infomation: ControlInformation,
+    pub indentification_no: [u8; 4],
+    pub device_type: u8,
+    pub transmission_counter: u8,
+    pub status: u8,
+    pub data: &'a [u8],
+    pub length: u8,
+    pub crc: u8,
+    pub stop: u8,
+    pub counters_fixed: bool,
+    pub units1: FixedDataUnits,
+    pub units2: FixedDataUnits,
+    pub counter1: u32,
+    pub counter2: u32,
+}
+
+impl Frame for FixedDataLongFrame<'_> {}

@@ -8,6 +8,7 @@ use super::{
     data_type::DataTypes,
     dif::DIF,
     dife::DIFE,
+    frame::Frame,
     vif::{VIF, VIFE},
     MBUS_FRAME_LONG_START, MBUS_FRAME_STOP,
 };
@@ -219,6 +220,8 @@ pub struct VariableDataLongFrame<'a> {
     pub signature: [u8; 2],
     pub parts: Vec<VariableDataLongParts<'a>>,
 }
+
+impl Frame for VariableDataLongFrame<'_> {}
 
 impl<'a> VariableDataLongFrame<'a> {
     pub fn get_length_in_bit_table(types: DataTypes) -> u8 {

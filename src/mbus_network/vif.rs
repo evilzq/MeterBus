@@ -1,6 +1,6 @@
 use alloc::string::String;
 
-use crate::en13757_2::frame::Part;
+use crate::mbus_network::frame::Part;
 
 use super::var_data::VariableDataQuantityUnit;
 
