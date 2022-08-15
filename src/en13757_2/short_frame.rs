@@ -3,11 +3,11 @@ use crate::checksum;
 use super::{MBUS_FRAME_SHORT_START, MBUS_FRAME_STOP};
 
 pub struct ShortFrame {
-    start: u8,
-    control: u8,
-    address: u8,
-    crc: u8,
-    stop: u8,
+    pub start: u8,
+    pub control: u8,
+    pub address: u8,
+    pub crc: u8,
+    pub stop: u8,
 }
 
 impl ShortFrame {

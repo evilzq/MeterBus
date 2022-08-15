@@ -115,8 +115,8 @@ pub enum Manufacturer {
 }
 
 pub struct ManufactureSpecific<'a> {
-    types: u8,
-    data: &'a [u8],
+    pub types: u8,
+    pub data: &'a [u8],
 }
 
 impl Part for ManufactureSpecific<'_> {}

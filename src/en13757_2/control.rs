@@ -98,13 +98,13 @@ pub enum ControlInformation {
 }
 
 pub struct ControlFrame {
-    start: u8,
-    control: u8,
-    control_infomation: ControlInformation,
-    address: u8,
-    length: u8,
-    crc: u8,
-    stop: u8,
+    pub start: u8,
+    pub control: u8,
+    pub control_infomation: ControlInformation,
+    pub address: u8,
+    pub length: u8,
+    pub crc: u8,
+    pub stop: u8,
 }
 
 impl Frame for ControlFrame {}

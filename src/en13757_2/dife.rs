@@ -1,11 +1,11 @@
 use super::frame::Part;
 
 pub struct DIFE {
-    storage_number: u8,
-    tariff: u8,
-    device: u8,
-    extension: bool,
-    data: u8,
+    pub storage_number: u8,
+    pub tariff: u8,
+    pub device: u8,
+    pub extension: bool,
+    pub data: u8,
 }
 
 impl Part for DIFE {}

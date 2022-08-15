@@ -3,11 +3,11 @@ use super::{
 };
 
 pub struct DIF {
-    data: VariableDataRecordType,
-    data_type: DataTypes,
-    function: Function,
-    storage_lsb: bool,
-    extension: bool,
+    pub data: VariableDataRecordType,
+    pub data_type: DataTypes,
+    pub function: Function,
+    pub storage_lsb: bool,
+    pub extension: bool,
 }
 
 impl Part for DIF {}

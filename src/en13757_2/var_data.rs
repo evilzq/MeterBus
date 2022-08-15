@@ -194,30 +194,30 @@ pub enum VariableDataQuantityUnit {
 }
 
 pub struct VariableDataLongParts<'a> {
-    di_field: DIF,
-    dife_field: Option<Vec<DIFE>>,
-    vi_field: VIF<'a>,
-    vife_field: Option<Vec<VIFE<'a>>>,
-    data: Option<Vec<u8>>,
+    pub di_field: DIF,
+    pub dife_field: Option<Vec<DIFE>>,
+    pub vi_field: VIF<'a>,
+    pub vife_field: Option<Vec<VIFE<'a>>>,
+    pub data: Option<Vec<u8>>,
 }
 
 pub struct VariableDataLongFrame<'a> {
-    strat: u8,
-    control: u8,
-    address: u8,
-    control_infomation: ControlInformation,
-    indentification_no: [u8; 4],
-    device_type: u8,
-    transmission_counter: u8,
-    status: u8,
-    data: &'a [u8],
-    length: u8,
-    crc: u8,
-    stop: u8,
-    manufacterer: [u8; 2],
-    version: u8,
-    signature: [u8; 2],
-    parts: Vec<VariableDataLongParts<'a>>,
+    pub strat: u8,
+    pub control: u8,
+    pub address: u8,
+    pub control_infomation: ControlInformation,
+    pub indentification_no: [u8; 4],
+    pub device_type: u8,
+    pub transmission_counter: u8,
+    pub status: u8,
+    pub data: &'a [u8],
+    pub length: u8,
+    pub crc: u8,
+    pub stop: u8,
+    pub manufacterer: [u8; 2],
+    pub version: u8,
+    pub signature: [u8; 2],
+    pub parts: Vec<VariableDataLongParts<'a>>,
 }
 
 impl<'a> VariableDataLongFrame<'a> {

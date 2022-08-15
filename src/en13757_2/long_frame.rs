@@ -5,18 +5,18 @@ use super::{
 };
 
 pub struct LongFrame<'a> {
-    strat: u8,
-    control: u8,
-    address: u8,
-    control_infomation: ControlInformation,
-    indentification_no: [u8; 4],
-    device_type: u8,
-    transmission_counter: u8,
-    status: u8,
-    data: &'a [u8],
-    length: u8,
-    crc: u8,
-    stop: u8,
+    pub strat: u8,
+    pub control: u8,
+    pub address: u8,
+    pub control_infomation: ControlInformation,
+    pub indentification_no: [u8; 4],
+    pub device_type: u8,
+    pub transmission_counter: u8,
+    pub status: u8,
+    pub data: &'a [u8],
+    pub length: u8,
+    pub crc: u8,
+    pub stop: u8,
 }
 
 impl<'a> LongFrame<'a> {
