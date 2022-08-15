@@ -1,6 +1,6 @@
 use super::{
     var_data::VariableDataQuantityUnit,
-    vif::{VfiTableRecord, VifType},
+    vif::{VfiTableRecord, VifType, VifeFbTableRecord, VifeFeTableRecord},
 };
 
 #[macro_export]
@@ -15,6 +15,30 @@ macro_rules! new_vfi_entry {
             types: $types,
             magnitude: $mag,
             name: $name,
+        }
+    };
+}
+#[macro_export]
+macro_rules! new_vifb_entry {
+    ($viffb:expr, $units:expr, $magnitude:expr) => {
+        VifeFbTableRecord {
+            vifb: $viffb,
+            units: $units,
+            unit: "",
+            quantity: "",
+            magnitude: $magnitude,
+        }
+    };
+}
+#[macro_export]
+macro_rules! new_vifd_entry {
+    ($viffd:expr, $units:expr, $magnitude:expr) => {
+        VifeFeTableRecord {
+            vife: $viffd,
+            units: $units,
+            unit: "",
+            quantity: "",
+            magnitude: $magnitude,
         }
     };
 }
@@ -640,7 +664,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Energy",
         VariableDataQuantityUnit::EnergyWh,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 3,
+        |b| ((b & 0x07) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -650,7 +674,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Energy",
         VariableDataQuantityUnit::EnergyWh,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 3,
+        |b| ((b & 0x07) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -660,7 +684,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Energy",
         VariableDataQuantityUnit::EnergyWh,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 3,
+        |b| ((b & 0x07) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -670,7 +694,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Energy",
         VariableDataQuantityUnit::EnergyWh,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 3,
+        |b| ((b & 0x07) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -680,7 +704,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Energy",
         VariableDataQuantityUnit::EnergyWh,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 3,
+        |b| ((b & 0x07) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -690,7 +714,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Energy",
         VariableDataQuantityUnit::EnergyWh,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 3,
+        |b| ((b & 0x07) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -700,7 +724,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Energy",
         VariableDataQuantityUnit::EnergyWh,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 3,
+        |b| ((b & 0x07) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -710,7 +734,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Energy",
         VariableDataQuantityUnit::EnergyWh,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 3,
+        |b| ((b & 0x07) - 3).try_into().unwrap(),
         ""
     ),
     /* E000 1nnn    Energy  J (0.001kJ to 10000kJ) */
@@ -721,7 +745,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Energy",
         VariableDataQuantityUnit::EnergyJ,
         VifType::PrimaryVIF,
-        |b| (b & 0x07),
+        |b| (b & 0x07).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -731,7 +755,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Energy",
         VariableDataQuantityUnit::EnergyJ,
         VifType::PrimaryVIF,
-        |b| (b & 0x07),
+        |b| (b & 0x07).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -741,7 +765,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Energy",
         VariableDataQuantityUnit::EnergyJ,
         VifType::PrimaryVIF,
-        |b| (b & 0x07),
+        |b| (b & 0x07).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -751,7 +775,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Energy",
         VariableDataQuantityUnit::EnergyJ,
         VifType::PrimaryVIF,
-        |b| (b & 0x07),
+        |b| (b & 0x07).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -761,7 +785,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Energy",
         VariableDataQuantityUnit::EnergyJ,
         VifType::PrimaryVIF,
-        |b| (b & 0x07),
+        |b| (b & 0x07).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -771,7 +795,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Energy",
         VariableDataQuantityUnit::EnergyJ,
         VifType::PrimaryVIF,
-        |b| (b & 0x07),
+        |b| (b & 0x07).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -781,7 +805,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Energy",
         VariableDataQuantityUnit::EnergyJ,
         VifType::PrimaryVIF,
-        |b| (b & 0x07),
+        |b| (b & 0x07).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -791,7 +815,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Energy",
         VariableDataQuantityUnit::EnergyJ,
         VifType::PrimaryVIF,
-        |b| (b & 0x07),
+        |b| (b & 0x07).try_into().unwrap(),
         ""
     ),
     /* E001 0nnn    Volume m^3 (0.001l to 10000l) */
@@ -802,7 +826,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Volume",
         VariableDataQuantityUnit::VolumeM3,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 6,
+        |b| ((b & 0x07) - 6).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -812,7 +836,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Volume",
         VariableDataQuantityUnit::VolumeM3,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 6,
+        |b| ((b & 0x07) - 6).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -822,7 +846,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Volume",
         VariableDataQuantityUnit::VolumeM3,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 6,
+        |b| ((b & 0x07) - 6).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -832,7 +856,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Volume",
         VariableDataQuantityUnit::VolumeM3,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 6,
+        |b| ((b & 0x07) - 6).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -842,7 +866,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Volume",
         VariableDataQuantityUnit::VolumeM3,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 6,
+        |b| ((b & 0x07) - 6).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -852,7 +876,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Volume",
         VariableDataQuantityUnit::VolumeM3,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 6,
+        |b| ((b & 0x07) - 6).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -862,7 +886,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Volume",
         VariableDataQuantityUnit::VolumeM3,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 6,
+        |b| ((b & 0x07) - 6).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -872,7 +896,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Volume",
         VariableDataQuantityUnit::VolumeM3,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 6,
+        |b| ((b & 0x07) - 6).try_into().unwrap(),
         ""
     ),
     /* E001 1nnn    Mass kg (0.001kg to 10000kg) */
@@ -883,7 +907,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Mass",
         VariableDataQuantityUnit::MassKg,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 3,
+        |b| ((b & 0x07) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -893,7 +917,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Mass",
         VariableDataQuantityUnit::MassKg,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 3,
+        |b| ((b & 0x07) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -903,7 +927,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Mass",
         VariableDataQuantityUnit::MassKg,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 3,
+        |b| ((b & 0x07) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -913,7 +937,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Mass",
         VariableDataQuantityUnit::MassKg,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 3,
+        |b| ((b & 0x07) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -923,7 +947,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Mass",
         VariableDataQuantityUnit::MassKg,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 3,
+        |b| ((b & 0x07) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -933,7 +957,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Mass",
         VariableDataQuantityUnit::MassKg,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 3,
+        |b| ((b & 0x07) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -943,7 +967,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Mass",
         VariableDataQuantityUnit::MassKg,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 3,
+        |b| ((b & 0x07) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -953,7 +977,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Mass",
         VariableDataQuantityUnit::MassKg,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 3,
+        |b| ((b & 0x07) - 3).try_into().unwrap(),
         ""
     ),
     /* E010 00nn    On Time s */
@@ -964,7 +988,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "On time",
         VariableDataQuantityUnit::OnTime,
         VifType::PrimaryVIF,
-        |b| (b & 0x03),
+        |b| (b & 0x03).try_into().unwrap(),
         ""
     ), /* seconds */
     new_vfi_entry!(
@@ -974,7 +998,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "On time",
         VariableDataQuantityUnit::OnTime,
         VifType::PrimaryVIF,
-        |b| (b & 0x03),
+        |b| (b & 0x03).try_into().unwrap(),
         ""
     ), /* minutes */
     new_vfi_entry!(
@@ -984,7 +1008,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "On time",
         VariableDataQuantityUnit::OnTime,
         VifType::PrimaryVIF,
-        |b| (b & 0x03),
+        |b| (b & 0x03).try_into().unwrap(),
         ""
     ), /* hours   */
     new_vfi_entry!(
@@ -994,7 +1018,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "On time",
         VariableDataQuantityUnit::OnTime,
         VifType::PrimaryVIF,
-        |b| (b & 0x03),
+        |b| (b & 0x03).try_into().unwrap(),
         ""
     ), /* days    */
     /* E010 01nn    Operating Time s */
@@ -1005,7 +1029,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Operating time",
         VariableDataQuantityUnit::OperatingTime,
         VifType::PrimaryVIF,
-        |b| (b & 0x03),
+        |b| (b & 0x03).try_into().unwrap(),
         ""
     ), /* seconds */
     new_vfi_entry!(
@@ -1015,7 +1039,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Operating time",
         VariableDataQuantityUnit::OperatingTime,
         VifType::PrimaryVIF,
-        |b| (b & 0x03),
+        |b| (b & 0x03).try_into().unwrap(),
         ""
     ), /* minutes */
     new_vfi_entry!(
@@ -1025,7 +1049,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Operating time",
         VariableDataQuantityUnit::OperatingTime,
         VifType::PrimaryVIF,
-        |b| (b & 0x03),
+        |b| (b & 0x03).try_into().unwrap(),
         ""
     ), /* hours   */
     new_vfi_entry!(
@@ -1035,7 +1059,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Operating time",
         VariableDataQuantityUnit::OperatingTime,
         VifType::PrimaryVIF,
-        |b| (b & 0x03),
+        |b| (b & 0x03).try_into().unwrap(),
         ""
     ), /* days    */
     /* E010 1nnn    Power W (0.001W to 10000W) */
@@ -1046,7 +1070,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Power",
         VariableDataQuantityUnit::PowerW,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 3,
+        |b| ((b & 0x07) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1056,7 +1080,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Power",
         VariableDataQuantityUnit::PowerW,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 3,
+        |b| ((b & 0x07) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1066,7 +1090,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Power",
         VariableDataQuantityUnit::PowerW,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 3,
+        |b| ((b & 0x07) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1076,7 +1100,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Power",
         VariableDataQuantityUnit::PowerW,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 3,
+        |b| ((b & 0x07) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1086,7 +1110,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Power",
         VariableDataQuantityUnit::PowerW,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 3,
+        |b| ((b & 0x07) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1096,7 +1120,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Power",
         VariableDataQuantityUnit::PowerW,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 3,
+        |b| ((b & 0x07) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1106,7 +1130,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Power",
         VariableDataQuantityUnit::PowerW,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 3,
+        |b| ((b & 0x07) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1116,7 +1140,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Power",
         VariableDataQuantityUnit::PowerW,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 3,
+        |b| ((b & 0x07) - 3).try_into().unwrap(),
         ""
     ),
     /* E011 0nnn    Power J/h (0.001kJ/h to 10000kJ/h) */
@@ -1127,7 +1151,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Power",
         VariableDataQuantityUnit::PowerJPerH,
         VifType::PrimaryVIF,
-        |b| (b & 0x07),
+        |b| (b & 0x07).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1137,7 +1161,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Power",
         VariableDataQuantityUnit::PowerJPerH,
         VifType::PrimaryVIF,
-        |b| (b & 0x07),
+        |b| (b & 0x07).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1147,7 +1171,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Power",
         VariableDataQuantityUnit::PowerJPerH,
         VifType::PrimaryVIF,
-        |b| (b & 0x07),
+        |b| (b & 0x07).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1157,7 +1181,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Power",
         VariableDataQuantityUnit::PowerJPerH,
         VifType::PrimaryVIF,
-        |b| (b & 0x07),
+        |b| (b & 0x07).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1167,7 +1191,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Power",
         VariableDataQuantityUnit::PowerJPerH,
         VifType::PrimaryVIF,
-        |b| (b & 0x07),
+        |b| (b & 0x07).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1177,7 +1201,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Power",
         VariableDataQuantityUnit::PowerJPerH,
         VifType::PrimaryVIF,
-        |b| (b & 0x07),
+        |b| (b & 0x07).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1187,7 +1211,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Power",
         VariableDataQuantityUnit::PowerJPerH,
         VifType::PrimaryVIF,
-        |b| (b & 0x07),
+        |b| (b & 0x07).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1197,7 +1221,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Power",
         VariableDataQuantityUnit::PowerJPerH,
         VifType::PrimaryVIF,
-        |b| (b & 0x07),
+        |b| (b & 0x07).try_into().unwrap(),
         ""
     ),
     /* E011 1nnn    Volume Flow m3/h (0.001l/h to 10000l/h) */
@@ -1208,7 +1232,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Volume flow",
         VariableDataQuantityUnit::VolumeFlowM3PerH,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 6,
+        |b| ((b & 0x07) - 6).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1218,7 +1242,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Volume flow",
         VariableDataQuantityUnit::VolumeFlowM3PerH,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 6,
+        |b| ((b & 0x07) - 6).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1228,7 +1252,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Volume flow",
         VariableDataQuantityUnit::VolumeFlowM3PerH,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 6,
+        |b| ((b & 0x07) - 6).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1238,7 +1262,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Volume flow",
         VariableDataQuantityUnit::VolumeFlowM3PerH,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 6,
+        |b| ((b & 0x07) - 6).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1248,7 +1272,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Volume flow",
         VariableDataQuantityUnit::VolumeFlowM3PerH,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 6,
+        |b| ((b & 0x07) - 6).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1258,7 +1282,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Volume flow",
         VariableDataQuantityUnit::VolumeFlowM3PerH,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 6,
+        |b| ((b & 0x07) - 6).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1268,7 +1292,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Volume flow",
         VariableDataQuantityUnit::VolumeFlowM3PerH,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 6,
+        |b| ((b & 0x07) - 6).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1278,7 +1302,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Volume flow",
         VariableDataQuantityUnit::VolumeFlowM3PerH,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 6,
+        |b| ((b & 0x07) - 6).try_into().unwrap(),
         ""
     ),
     /* E100 0nnn     Volume Flow ext.  m^3/min (0.0001l/min to 1000l/min) */
@@ -1289,7 +1313,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Volume flow",
         VariableDataQuantityUnit::VolumeFlowExtM3PerMin,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 7,
+        |b| ((b & 0x07) - 7).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1299,7 +1323,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Volume flow",
         VariableDataQuantityUnit::VolumeFlowExtM3PerMin,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 7,
+        |b| ((b & 0x07) - 7).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1309,7 +1333,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Volume flow",
         VariableDataQuantityUnit::VolumeFlowExtM3PerMin,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 7,
+        |b| ((b & 0x07) - 7).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1319,7 +1343,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Volume flow",
         VariableDataQuantityUnit::VolumeFlowExtM3PerMin,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 7,
+        |b| ((b & 0x07) - 7).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1329,7 +1353,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Volume flow",
         VariableDataQuantityUnit::VolumeFlowExtM3PerMin,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 7,
+        |b| ((b & 0x07) - 7).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1339,7 +1363,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Volume flow",
         VariableDataQuantityUnit::VolumeFlowExtM3PerMin,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 7,
+        |b| ((b & 0x07) - 7).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1349,7 +1373,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Volume flow",
         VariableDataQuantityUnit::VolumeFlowExtM3PerMin,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 7,
+        |b| ((b & 0x07) - 7).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1359,7 +1383,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Volume flow",
         VariableDataQuantityUnit::VolumeFlowExtM3PerMin,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 7,
+        |b| ((b & 0x07) - 7).try_into().unwrap(),
         ""
     ),
     /* E100 1nnn     Volume Flow ext.  m^3/s (0.001ml/s to 10000ml/s) */
@@ -1370,7 +1394,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Volume flow",
         VariableDataQuantityUnit::VolumeFlowExtM3PerS,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 9,
+        |b| ((b & 0x07) - 9).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1380,7 +1404,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Volume flow",
         VariableDataQuantityUnit::VolumeFlowExtM3PerS,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 9,
+        |b| ((b & 0x07) - 9).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1390,7 +1414,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Volume flow",
         VariableDataQuantityUnit::VolumeFlowExtM3PerS,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 9,
+        |b| ((b & 0x07) - 9).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1400,7 +1424,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Volume flow",
         VariableDataQuantityUnit::VolumeFlowExtM3PerS,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 9,
+        |b| ((b & 0x07) - 9).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1410,7 +1434,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Volume flow",
         VariableDataQuantityUnit::VolumeFlowExtM3PerS,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 9,
+        |b| ((b & 0x07) - 9).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1420,7 +1444,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Volume flow",
         VariableDataQuantityUnit::VolumeFlowExtM3PerS,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 9,
+        |b| ((b & 0x07) - 9).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1430,7 +1454,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Volume flow",
         VariableDataQuantityUnit::VolumeFlowExtM3PerS,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 9,
+        |b| ((b & 0x07) - 9).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1440,7 +1464,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Volume flow",
         VariableDataQuantityUnit::VolumeFlowExtM3PerS,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 9,
+        |b| ((b & 0x07) - 9).try_into().unwrap(),
         ""
     ),
     /* E101 0nnn     Mass flow kg/h (0.001kg/h to 10000kg/h) */
@@ -1451,7 +1475,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Mass flow",
         VariableDataQuantityUnit::MassFlowKgPerH,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 3,
+        |b| ((b & 0x07) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1461,7 +1485,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Mass flow",
         VariableDataQuantityUnit::MassFlowKgPerH,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 3,
+        |b| ((b & 0x07) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1471,7 +1495,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Mass flow",
         VariableDataQuantityUnit::MassFlowKgPerH,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 3,
+        |b| ((b & 0x07) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1481,7 +1505,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Mass flow",
         VariableDataQuantityUnit::MassFlowKgPerH,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 3,
+        |b| ((b & 0x07) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1491,7 +1515,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Mass flow",
         VariableDataQuantityUnit::MassFlowKgPerH,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 3,
+        |b| ((b & 0x07) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1501,7 +1525,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Mass flow",
         VariableDataQuantityUnit::MassFlowKgPerH,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 3,
+        |b| ((b & 0x07) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1511,7 +1535,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Mass flow",
         VariableDataQuantityUnit::MassFlowKgPerH,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 3,
+        |b| ((b & 0x07) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1521,7 +1545,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Mass flow",
         VariableDataQuantityUnit::MassFlowKgPerH,
         VifType::PrimaryVIF,
-        |b| (b & 0x07) - 3,
+        |b| ((b & 0x07) - 3).try_into().unwrap(),
         ""
     ),
     /* E101 10nn     Flow Temperature °C (0.001°C to 1°C) */
@@ -1532,7 +1556,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Flow temperature",
         VariableDataQuantityUnit::FlowTemperatureC,
         VifType::PrimaryVIF,
-        |b| (b & 0x03) - 3,
+        |b| ((b & 0x03) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1542,7 +1566,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Flow temperature",
         VariableDataQuantityUnit::FlowTemperatureC,
         VifType::PrimaryVIF,
-        |b| (b & 0x03) - 3,
+        |b| ((b & 0x03) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1552,7 +1576,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Flow temperature",
         VariableDataQuantityUnit::FlowTemperatureC,
         VifType::PrimaryVIF,
-        |b| (b & 0x03) - 3,
+        |b| ((b & 0x03) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1562,7 +1586,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Flow temperature",
         VariableDataQuantityUnit::FlowTemperatureC,
         VifType::PrimaryVIF,
-        |b| (b & 0x03) - 3,
+        |b| ((b & 0x03) - 3).try_into().unwrap(),
         ""
     ),
     /* E101 11nn Return Temperature °C (0.001°C to 1°C) */
@@ -1573,7 +1597,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Return temperature",
         VariableDataQuantityUnit::ReturnTemperatureC,
         VifType::PrimaryVIF,
-        |b| (b & 0x03) - 3,
+        |b| ((b & 0x03) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1583,7 +1607,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Return temperature",
         VariableDataQuantityUnit::ReturnTemperatureC,
         VifType::PrimaryVIF,
-        |b| (b & 0x03) - 3,
+        |b| ((b & 0x03) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1593,7 +1617,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Return temperature",
         VariableDataQuantityUnit::ReturnTemperatureC,
         VifType::PrimaryVIF,
-        |b| (b & 0x03) - 3,
+        |b| ((b & 0x03) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1603,7 +1627,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Return temperature",
         VariableDataQuantityUnit::ReturnTemperatureC,
         VifType::PrimaryVIF,
-        |b| (b & 0x03) - 3,
+        |b| ((b & 0x03) - 3).try_into().unwrap(),
         ""
     ),
     /* E110 00nn    Temperature Difference  K   (mK to  K) */
@@ -1614,7 +1638,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Temperature difference",
         VariableDataQuantityUnit::TemperatureDifferenceK,
         VifType::PrimaryVIF,
-        |b| (b & 0x03) - 3,
+        |b| ((b & 0x03) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1624,7 +1648,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Temperature difference",
         VariableDataQuantityUnit::TemperatureDifferenceK,
         VifType::PrimaryVIF,
-        |b| (b & 0x03) - 3,
+        |b| ((b & 0x03) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1634,7 +1658,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Temperature difference",
         VariableDataQuantityUnit::TemperatureDifferenceK,
         VifType::PrimaryVIF,
-        |b| (b & 0x03) - 3,
+        |b| ((b & 0x03) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1644,7 +1668,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Temperature difference",
         VariableDataQuantityUnit::TemperatureDifferenceK,
         VifType::PrimaryVIF,
-        |b| (b & 0x03) - 3,
+        |b| ((b & 0x03) - 3).try_into().unwrap(),
         ""
     ),
     /* E110 01nn     External Temperature °C (0.001°C to 1°C) */
@@ -1655,7 +1679,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "External temperature",
         VariableDataQuantityUnit::ExternalTemperatureC,
         VifType::PrimaryVIF,
-        |b| (b & 0x03) - 3,
+        |b| ((b & 0x03) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1665,7 +1689,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "External temperature",
         VariableDataQuantityUnit::ExternalTemperatureC,
         VifType::PrimaryVIF,
-        |b| (b & 0x03) - 3,
+        |b| ((b & 0x03) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1675,7 +1699,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "External temperature",
         VariableDataQuantityUnit::ExternalTemperatureC,
         VifType::PrimaryVIF,
-        |b| (b & 0x03) - 3,
+        |b| ((b & 0x03) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1685,7 +1709,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "External temperature",
         VariableDataQuantityUnit::ExternalTemperatureC,
         VifType::PrimaryVIF,
-        |b| (b & 0x03) - 3,
+        |b| ((b & 0x03) - 3).try_into().unwrap(),
         ""
     ),
     /* E110 10nn     Pressure bar (1mbar to 1000mbar) */
@@ -1696,7 +1720,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Pressure",
         VariableDataQuantityUnit::PressureBar,
         VifType::PrimaryVIF,
-        |b| (b & 0x03) - 3,
+        |b| ((b & 0x03) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1706,7 +1730,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Pressure",
         VariableDataQuantityUnit::PressureBar,
         VifType::PrimaryVIF,
-        |b| (b & 0x03) - 3,
+        |b| ((b & 0x03) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1716,7 +1740,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Pressure",
         VariableDataQuantityUnit::PressureBar,
         VifType::PrimaryVIF,
-        |b| (b & 0x03) - 3,
+        |b| ((b & 0x03) - 3).try_into().unwrap(),
         ""
     ),
     new_vfi_entry!(
@@ -1726,7 +1750,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Pressure",
         VariableDataQuantityUnit::PressureBar,
         VifType::PrimaryVIF,
-        |b| (b & 0x03) - 3,
+        |b| ((b & 0x03) - 3).try_into().unwrap(),
         ""
     ),
     /* E110 110n     Time Point */
@@ -1737,7 +1761,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Time point (date)",
         VariableDataQuantityUnit::TimePoint,
         VifType::PrimaryVIF,
-        |b| b & 0x01,
+        |b| (b & 0x01).try_into().unwrap(),
         ""
     ), /* n = 0        date, data type G */
     new_vfi_entry!(
@@ -1747,7 +1771,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Time point (date & time)",
         VariableDataQuantityUnit::TimePoint,
         VifType::PrimaryVIF,
-        |b| b & 0x01,
+        |b| (b & 0x01).try_into().unwrap(),
         ""
     ), /* n = 1 time & date, data type F */
     /* E110 1110     Units for H.C.A. dimensionless */
@@ -1780,7 +1804,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Averaging Duration",
         VariableDataQuantityUnit::AveragingDuration,
         VifType::PrimaryVIF,
-        |b| (b & 0x03),
+        |b| (b & 0x03).try_into().unwrap(),
         ""
     ), /* seconds */
     new_vfi_entry!(
@@ -1790,7 +1814,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Averaging Duration",
         VariableDataQuantityUnit::AveragingDuration,
         VifType::PrimaryVIF,
-        |b| (b & 0x03),
+        |b| (b & 0x03).try_into().unwrap(),
         ""
     ), /* minutes */
     new_vfi_entry!(
@@ -1800,7 +1824,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Averaging Duration",
         VariableDataQuantityUnit::AveragingDuration,
         VifType::PrimaryVIF,
-        |b| (b & 0x03),
+        |b| (b & 0x03).try_into().unwrap(),
         ""
     ), /* hours   */
     new_vfi_entry!(
@@ -1810,7 +1834,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Averaging Duration",
         VariableDataQuantityUnit::AveragingDuration,
         VifType::PrimaryVIF,
-        |b| (b & 0x03),
+        |b| (b & 0x03).try_into().unwrap(),
         ""
     ), /* days    */
     /* E111 01nn     Actuality Duration s */
@@ -1821,7 +1845,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Actuality Duration",
         VariableDataQuantityUnit::AveragingDuration,
         VifType::PrimaryVIF,
-        |b| (b & 0x03),
+        |b| (b & 0x03).try_into().unwrap(),
         ""
     ), /* seconds */
     new_vfi_entry!(
@@ -1831,7 +1855,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Actuality Duration",
         VariableDataQuantityUnit::AveragingDuration,
         VifType::PrimaryVIF,
-        |b| (b & 0x03),
+        |b| (b & 0x03).try_into().unwrap(),
         ""
     ), /* minutes */
     new_vfi_entry!(
@@ -1841,7 +1865,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Actuality Duration",
         VariableDataQuantityUnit::AveragingDuration,
         VifType::PrimaryVIF,
-        |b| (b & 0x03),
+        |b| (b & 0x03).try_into().unwrap(),
         ""
     ), /* hours   */
     new_vfi_entry!(
@@ -1851,7 +1875,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         "Actuality Duration",
         VariableDataQuantityUnit::AveragingDuration,
         VifType::PrimaryVIF,
-        |b| (b & 0x03),
+        |b| (b & 0x03).try_into().unwrap(),
         ""
     ), /* days    */
     /* Fabrication No */
@@ -1961,4 +1985,821 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
         |_| 0,
         ""
     ),
+];
+
+pub const VIFE_FB_TABLE: [VifeFbTableRecord; 128] = [
+    new_vifb_entry!(0x00, VariableDataQuantityUnit::EnergyMWh, |b| ((b & 0x01)
+        - 1)
+    .try_into()
+    .unwrap()),
+    new_vifb_entry!(0x01, VariableDataQuantityUnit::EnergyMWh, |b| ((b & 0x01)
+        - 1)
+    .try_into()
+    .unwrap()),
+    new_vifb_entry!(0x02, VariableDataQuantityUnit::ReservedVifeFb02, |b| (b
+        & 0x01)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x03, VariableDataQuantityUnit::ReservedVifeFb02, |b| (b
+        & 0x01)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x04, VariableDataQuantityUnit::ReservedVifeFb04, |b| (b
+        & 0x01)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x05, VariableDataQuantityUnit::ReservedVifeFb04, |b| (b
+        & 0x01)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x06, VariableDataQuantityUnit::ReservedVifeFb04, |b| (b
+        & 0x01)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x07, VariableDataQuantityUnit::ReservedVifeFb04, |b| (b
+        & 0x01)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x08, VariableDataQuantityUnit::EnergyGJ, |b| ((b & 0x01)
+        - 1)
+    .try_into()
+    .unwrap()),
+    new_vifb_entry!(0x09, VariableDataQuantityUnit::EnergyGJ, |b| ((b & 0x01)
+        - 1)
+    .try_into()
+    .unwrap()),
+    new_vifb_entry!(0x0a, VariableDataQuantityUnit::ReservedVifeFb0a, |b| (b
+        & 0x01)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x0b, VariableDataQuantityUnit::ReservedVifeFb0a, |b| (b
+        & 0x01)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x0c, VariableDataQuantityUnit::ReservedVifeFb0c, |b| (b
+        & 0x03)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x0d, VariableDataQuantityUnit::ReservedVifeFb0c, |b| (b
+        & 0x03)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x0e, VariableDataQuantityUnit::ReservedVifeFb0c, |b| (b
+        & 0x03)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x0f, VariableDataQuantityUnit::ReservedVifeFb0c, |b| (b
+        & 0x03)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x10, VariableDataQuantityUnit::VolumeM3, |b| ((b & 0x01)
+        + 2)
+    .try_into()
+    .unwrap()),
+    new_vifb_entry!(0x11, VariableDataQuantityUnit::VolumeM3, |b| ((b & 0x01)
+        + 2)
+    .try_into()
+    .unwrap()),
+    new_vifb_entry!(0x12, VariableDataQuantityUnit::ReservedVifeFb12, |b| (b
+        & 0x01)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x13, VariableDataQuantityUnit::ReservedVifeFb12, |b| (b
+        & 0x01)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x14, VariableDataQuantityUnit::ReservedVifeFb14, |b| (b
+        & 0x03)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x15, VariableDataQuantityUnit::ReservedVifeFb14, |b| (b
+        & 0x03)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x16, VariableDataQuantityUnit::ReservedVifeFb14, |b| (b
+        & 0x03)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x17, VariableDataQuantityUnit::ReservedVifeFb14, |b| (b
+        & 0x03)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x18, VariableDataQuantityUnit::MassT, |b| ((b & 0x01) + 2)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x19, VariableDataQuantityUnit::MassT, |b| ((b & 0x01) + 2)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x1a, VariableDataQuantityUnit::ReservedVifeFb1a, |b| (b
+        - 0x1a)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x1b, VariableDataQuantityUnit::ReservedVifeFb1a, |b| (b
+        - 0x1a)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x1c, VariableDataQuantityUnit::ReservedVifeFb1a, |b| (b
+        - 0x1a)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x1d, VariableDataQuantityUnit::ReservedVifeFb1a, |b| (b
+        - 0x1a)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x1e, VariableDataQuantityUnit::ReservedVifeFb1a, |b| (b
+        - 0x1a)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x1f, VariableDataQuantityUnit::ReservedVifeFb1a, |b| (b
+        - 0x1a)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x20, VariableDataQuantityUnit::ReservedVifeFb1a, |b| (b
+        - 0x1a)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x21, VariableDataQuantityUnit::VolumeFeet3, |_| -1),
+    new_vifb_entry!(0x22, VariableDataQuantityUnit::VolumeAmericanGallon, |b| (b
+        - 0x23)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x23, VariableDataQuantityUnit::VolumeAmericanGallon, |b| (b
+        - 0x23)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(
+        0x24,
+        VariableDataQuantityUnit::VolumeFlowAmericanGallonPerMin,
+        |_| -3
+    ),
+    new_vifb_entry!(
+        0x25,
+        VariableDataQuantityUnit::VolumeFlowAmericanGallonPerMin,
+        |_| 0
+    ),
+    new_vifb_entry!(
+        0x26,
+        VariableDataQuantityUnit::VolumeFlowAmericanGallonPerH,
+        |_| 0
+    ),
+    new_vifb_entry!(0x27, VariableDataQuantityUnit::ReservedVifeFb27, |_| 0),
+    new_vifb_entry!(0x28, VariableDataQuantityUnit::PowerW, |b| ((b & 0x01) - 1)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x29, VariableDataQuantityUnit::PowerW, |b| ((b & 0x01) - 1)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x2a, VariableDataQuantityUnit::ReservedVifeFb2a, |b| (b
+        & 0x01)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x2b, VariableDataQuantityUnit::ReservedVifeFb2a, |b| (b
+        & 0x01)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x2c, VariableDataQuantityUnit::ReservedVifeFb2c, |b| (b
+        & 0x03)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x2d, VariableDataQuantityUnit::ReservedVifeFb2c, |b| (b
+        & 0x03)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x2e, VariableDataQuantityUnit::ReservedVifeFb2c, |b| (b
+        & 0x03)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x2f, VariableDataQuantityUnit::ReservedVifeFb2c, |b| (b
+        & 0x03)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x30, VariableDataQuantityUnit::PowerGjPerH, |b| ((b
+        & 0x01)
+        - 1)
+    .try_into()
+    .unwrap()),
+    new_vifb_entry!(0x31, VariableDataQuantityUnit::PowerGjPerH, |b| ((b
+        & 0x01)
+        - 1)
+    .try_into()
+    .unwrap()),
+    new_vifb_entry!(0x32, VariableDataQuantityUnit::ReservedVifeFb32, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x33, VariableDataQuantityUnit::ReservedVifeFb32, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x34, VariableDataQuantityUnit::ReservedVifeFb32, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x35, VariableDataQuantityUnit::ReservedVifeFb32, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x36, VariableDataQuantityUnit::ReservedVifeFb32, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x37, VariableDataQuantityUnit::ReservedVifeFb32, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x38, VariableDataQuantityUnit::ReservedVifeFb32, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x39, VariableDataQuantityUnit::ReservedVifeFb32, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x3a, VariableDataQuantityUnit::ReservedVifeFb32, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x3b, VariableDataQuantityUnit::ReservedVifeFb32, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x3c, VariableDataQuantityUnit::ReservedVifeFb32, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x3d, VariableDataQuantityUnit::ReservedVifeFb32, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x3e, VariableDataQuantityUnit::ReservedVifeFb32, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x3f, VariableDataQuantityUnit::ReservedVifeFb32, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x40, VariableDataQuantityUnit::ReservedVifeFb32, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x41, VariableDataQuantityUnit::ReservedVifeFb32, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x42, VariableDataQuantityUnit::ReservedVifeFb32, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x43, VariableDataQuantityUnit::ReservedVifeFb32, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x44, VariableDataQuantityUnit::ReservedVifeFb32, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x45, VariableDataQuantityUnit::ReservedVifeFb32, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x46, VariableDataQuantityUnit::ReservedVifeFb32, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x47, VariableDataQuantityUnit::ReservedVifeFb32, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x48, VariableDataQuantityUnit::ReservedVifeFb32, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x49, VariableDataQuantityUnit::ReservedVifeFb32, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x4a, VariableDataQuantityUnit::ReservedVifeFb32, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x4b, VariableDataQuantityUnit::ReservedVifeFb32, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x4c, VariableDataQuantityUnit::ReservedVifeFb32, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x4d, VariableDataQuantityUnit::ReservedVifeFb32, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x4e, VariableDataQuantityUnit::ReservedVifeFb32, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x4f, VariableDataQuantityUnit::ReservedVifeFb32, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x50, VariableDataQuantityUnit::ReservedVifeFb32, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x51, VariableDataQuantityUnit::ReservedVifeFb32, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x52, VariableDataQuantityUnit::ReservedVifeFb32, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x53, VariableDataQuantityUnit::ReservedVifeFb32, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x54, VariableDataQuantityUnit::ReservedVifeFb32, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x55, VariableDataQuantityUnit::ReservedVifeFb32, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x56, VariableDataQuantityUnit::ReservedVifeFb32, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x57, VariableDataQuantityUnit::ReservedVifeFb32, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x58, VariableDataQuantityUnit::FlowTemperatureF, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x59, VariableDataQuantityUnit::FlowTemperatureF, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x5a, VariableDataQuantityUnit::FlowTemperatureF, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x5b, VariableDataQuantityUnit::FlowTemperatureF, |b| (b
+        - 0x32)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x5c, VariableDataQuantityUnit::ReturnTemperatureF, |b| ((b
+        & 0x03)
+        - 3)
+    .try_into()
+    .unwrap()),
+    new_vifb_entry!(0x5d, VariableDataQuantityUnit::ReturnTemperatureF, |b| ((b
+        & 0x03)
+        - 3)
+    .try_into()
+    .unwrap()),
+    new_vifb_entry!(0x5e, VariableDataQuantityUnit::ReturnTemperatureF, |b| ((b
+        & 0x03)
+        - 3)
+    .try_into()
+    .unwrap()),
+    new_vifb_entry!(0x5f, VariableDataQuantityUnit::ReturnTemperatureF, |b| ((b
+        & 0x03)
+        - 3)
+    .try_into()
+    .unwrap()),
+    new_vifb_entry!(
+        0x60,
+        VariableDataQuantityUnit::TemperatureDifferenceF,
+        |b| ((b & 0x03) - 3).try_into().unwrap()
+    ),
+    new_vifb_entry!(
+        0x61,
+        VariableDataQuantityUnit::TemperatureDifferenceF,
+        |b| ((b & 0x03) - 3).try_into().unwrap()
+    ),
+    new_vifb_entry!(
+        0x62,
+        VariableDataQuantityUnit::TemperatureDifferenceF,
+        |b| ((b & 0x03) - 3).try_into().unwrap()
+    ),
+    new_vifb_entry!(
+        0x63,
+        VariableDataQuantityUnit::TemperatureDifferenceF,
+        |b| ((b & 0x03) - 3).try_into().unwrap()
+    ),
+    new_vifb_entry!(0x64, VariableDataQuantityUnit::ExternalTemperatureF, |b| {
+        ((b & 0x03) - 3).try_into().unwrap()
+    }),
+    new_vifb_entry!(0x65, VariableDataQuantityUnit::ExternalTemperatureF, |b| {
+        ((b & 0x03) - 3).try_into().unwrap()
+    }),
+    new_vifb_entry!(0x66, VariableDataQuantityUnit::ExternalTemperatureF, |b| {
+        ((b & 0x03) - 3).try_into().unwrap()
+    }),
+    new_vifb_entry!(0x67, VariableDataQuantityUnit::ExternalTemperatureF, |b| {
+        ((b & 0x03) - 3).try_into().unwrap()
+    }),
+    new_vifb_entry!(0x68, VariableDataQuantityUnit::ReservedVifeFb68, |b| (b
+        & 0x07)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x69, VariableDataQuantityUnit::ReservedVifeFb68, |b| (b
+        & 0x07)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x6a, VariableDataQuantityUnit::ReservedVifeFb68, |b| (b
+        & 0x07)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x6b, VariableDataQuantityUnit::ReservedVifeFb68, |b| (b
+        & 0x07)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x6c, VariableDataQuantityUnit::ReservedVifeFb68, |b| (b
+        & 0x07)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x6d, VariableDataQuantityUnit::ReservedVifeFb68, |b| (b
+        & 0x07)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x6e, VariableDataQuantityUnit::ReservedVifeFb68, |b| (b
+        & 0x07)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(0x6f, VariableDataQuantityUnit::ReservedVifeFb68, |b| (b
+        & 0x07)
+        .try_into()
+        .unwrap()),
+    new_vifb_entry!(
+        0x70,
+        VariableDataQuantityUnit::ColdWarmTemperatureLimitF,
+        |b| ((b & 0x03) - 3).try_into().unwrap()
+    ),
+    new_vifb_entry!(
+        0x71,
+        VariableDataQuantityUnit::ColdWarmTemperatureLimitF,
+        |b| ((b & 0x03) - 3).try_into().unwrap()
+    ),
+    new_vifb_entry!(
+        0x72,
+        VariableDataQuantityUnit::ColdWarmTemperatureLimitF,
+        |b| ((b & 0x03) - 3).try_into().unwrap()
+    ),
+    new_vifb_entry!(
+        0x73,
+        VariableDataQuantityUnit::ColdWarmTemperatureLimitF,
+        |b| ((b & 0x03) - 3).try_into().unwrap()
+    ),
+    new_vifb_entry!(
+        0x74,
+        VariableDataQuantityUnit::ColdWarmTemperatureLimitC,
+        |b| ((b & 0x03) - 3).try_into().unwrap()
+    ),
+    new_vifb_entry!(
+        0x75,
+        VariableDataQuantityUnit::ColdWarmTemperatureLimitC,
+        |b| ((b & 0x03) - 3).try_into().unwrap()
+    ),
+    new_vifb_entry!(
+        0x76,
+        VariableDataQuantityUnit::ColdWarmTemperatureLimitC,
+        |b| ((b & 0x03) - 3).try_into().unwrap()
+    ),
+    new_vifb_entry!(
+        0x77,
+        VariableDataQuantityUnit::ColdWarmTemperatureLimitC,
+        |b| ((b & 0x03) - 3).try_into().unwrap()
+    ),
+    new_vifb_entry!(0x78, VariableDataQuantityUnit::CumulCountMaxPowerW, |b| {
+        ((b & 0x07) - 3).try_into().unwrap()
+    }),
+    new_vifb_entry!(0x79, VariableDataQuantityUnit::CumulCountMaxPowerW, |b| {
+        ((b & 0x07) - 3).try_into().unwrap()
+    }),
+    new_vifb_entry!(0x7a, VariableDataQuantityUnit::CumulCountMaxPowerW, |b| {
+        ((b & 0x07) - 3).try_into().unwrap()
+    }),
+    new_vifb_entry!(0x7b, VariableDataQuantityUnit::CumulCountMaxPowerW, |b| {
+        ((b & 0x07) - 3).try_into().unwrap()
+    }),
+    new_vifb_entry!(0x7c, VariableDataQuantityUnit::CumulCountMaxPowerW, |b| {
+        ((b & 0x07) - 3).try_into().unwrap()
+    }),
+    new_vifb_entry!(0x7d, VariableDataQuantityUnit::CumulCountMaxPowerW, |b| {
+        ((b & 0x07) - 3).try_into().unwrap()
+    }),
+    new_vifb_entry!(0x7e, VariableDataQuantityUnit::CumulCountMaxPowerW, |b| {
+        ((b & 0x07) - 3).try_into().unwrap()
+    }),
+    new_vifb_entry!(0x7f, VariableDataQuantityUnit::CumulCountMaxPowerW, |b| {
+        ((b & 0x07) - 3).try_into().unwrap()
+    }),
+];
+
+pub const VIFE_FD_TABLE: [VifeFeTableRecord; 128] = [
+    new_vifd_entry!(0x00, VariableDataQuantityUnit::Credit, |b| ((b & 0x03) - 3)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x01, VariableDataQuantityUnit::Credit, |b| ((b & 0x03) - 3)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x02, VariableDataQuantityUnit::Credit, |b| ((b & 0x03) - 3)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x03, VariableDataQuantityUnit::Credit, |b| ((b & 0x03) - 3)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x04, VariableDataQuantityUnit::Debit, |b| ((b & 0x03) - 3)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x05, VariableDataQuantityUnit::Debit, |b| ((b & 0x03) - 3)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x06, VariableDataQuantityUnit::Debit, |b| ((b & 0x03) - 3)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x07, VariableDataQuantityUnit::Debit, |b| ((b & 0x03) - 3)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x08, VariableDataQuantityUnit::AccessNumber, |_| 0),
+    new_vifd_entry!(0x09, VariableDataQuantityUnit::Medium, |_| 0),
+    new_vifd_entry!(0x0a, VariableDataQuantityUnit::Manufacturer, |_| 0),
+    new_vifd_entry!(
+        0x0b,
+        VariableDataQuantityUnit::EnhancedIdentification,
+        |_| 0
+    ),
+    new_vifd_entry!(0x0c, VariableDataQuantityUnit::ModelVersion, |_| 0),
+    new_vifd_entry!(0x0d, VariableDataQuantityUnit::HardwareVersionNr, |_| 0),
+    new_vifd_entry!(0x0e, VariableDataQuantityUnit::FirmwareVersionNr, |_| 0),
+    new_vifd_entry!(0x0f, VariableDataQuantityUnit::SoftwareVersionNr, |_| 0),
+    new_vifd_entry!(0x10, VariableDataQuantityUnit::CustomerLocation, |_| 0),
+    new_vifd_entry!(0x11, VariableDataQuantityUnit::Customer, |_| 0),
+    new_vifd_entry!(0x12, VariableDataQuantityUnit::AccessCodeUser, |_| 0),
+    new_vifd_entry!(0x13, VariableDataQuantityUnit::AccessCodeOperator, |_| 0),
+    new_vifd_entry!(
+        0x14,
+        VariableDataQuantityUnit::AccessCodeSystemOperator,
+        |_| 0
+    ),
+    new_vifd_entry!(0x15, VariableDataQuantityUnit::AccessCodeDeveloper, |_| 0),
+    new_vifd_entry!(0x16, VariableDataQuantityUnit::Password, |_| 0),
+    new_vifd_entry!(0x17, VariableDataQuantityUnit::ErrorFlags, |_| 0),
+    new_vifd_entry!(0x18, VariableDataQuantityUnit::ErrorMask, |_| 0),
+    new_vifd_entry!(0x19, VariableDataQuantityUnit::ReservedVifeFd19, |_| 0),
+    new_vifd_entry!(0x1a, VariableDataQuantityUnit::DigitalOutput, |_| 0),
+    new_vifd_entry!(0x1b, VariableDataQuantityUnit::DigitalInput, |_| 0),
+    new_vifd_entry!(0x1c, VariableDataQuantityUnit::Baudrate, |_| 0),
+    new_vifd_entry!(0x1d, VariableDataQuantityUnit::ResponseDelayTime, |_| 0),
+    new_vifd_entry!(0x1e, VariableDataQuantityUnit::Retry, |_| 0),
+    new_vifd_entry!(0x1f, VariableDataQuantityUnit::ReservedVifeFd1f, |_| 0),
+    new_vifd_entry!(0x20, VariableDataQuantityUnit::FirstStorageNr, |_| 0),
+    new_vifd_entry!(0x21, VariableDataQuantityUnit::LastStorageNr, |_| 0),
+    new_vifd_entry!(0x22, VariableDataQuantityUnit::SizeOfStorage, |_| 0),
+    new_vifd_entry!(0x23, VariableDataQuantityUnit::ReservedVifeFd23, |_| 0),
+    new_vifd_entry!(0x24, VariableDataQuantityUnit::StorageInterval, |_| 0),
+    new_vifd_entry!(0x25, VariableDataQuantityUnit::StorageInterval, |_| 0),
+    new_vifd_entry!(0x26, VariableDataQuantityUnit::StorageInterval, |_| 0),
+    new_vifd_entry!(0x27, VariableDataQuantityUnit::StorageInterval, |b| (b
+        & 0x03)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x28, VariableDataQuantityUnit::StorageIntervalMmnth, |_| 0),
+    new_vifd_entry!(0x29, VariableDataQuantityUnit::StorageIntervalYear, |_| 0),
+    new_vifd_entry!(0x2a, VariableDataQuantityUnit::ReservedVifeFb2a, |_| 0),
+    new_vifd_entry!(0x2b, VariableDataQuantityUnit::ReservedVifeFd2b, |_| 0),
+    new_vifd_entry!(
+        0x2c,
+        VariableDataQuantityUnit::DurationSinceLastReadout,
+        |_| 0
+    ),
+    new_vifd_entry!(
+        0x2d,
+        VariableDataQuantityUnit::DurationSinceLastReadout,
+        |_| 0
+    ),
+    new_vifd_entry!(
+        0x2e,
+        VariableDataQuantityUnit::DurationSinceLastReadout,
+        |_| 0
+    ),
+    new_vifd_entry!(
+        0x2f,
+        VariableDataQuantityUnit::DurationSinceLastReadout,
+        |_| 0
+    ),
+    new_vifd_entry!(0x30, VariableDataQuantityUnit::StartDateTimeOfTariff, |_| 0),
+    new_vifd_entry!(0x31, VariableDataQuantityUnit::DurationOfTariff, |b| (b
+        & 0x03)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x32, VariableDataQuantityUnit::DurationOfTariff, |b| (b
+        & 0x03)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x33, VariableDataQuantityUnit::DurationOfTariff, |b| (b
+        & 0x03)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x34, VariableDataQuantityUnit::PeriodOfTariff, |b| (b
+        & 0x03)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x35, VariableDataQuantityUnit::PeriodOfTariff, |b| (b
+        & 0x03)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x36, VariableDataQuantityUnit::PeriodOfTariff, |b| (b
+        & 0x03)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x37, VariableDataQuantityUnit::PeriodOfTariff, |b| (b
+        & 0x03)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x38, VariableDataQuantityUnit::PeriodOfTariffMonths, |_| 0),
+    new_vifd_entry!(0x39, VariableDataQuantityUnit::PeriodOfTariffYear, |_| 0),
+    new_vifd_entry!(0x3a, VariableDataQuantityUnit::Dimensionless, |_| 0),
+    new_vifd_entry!(0x3b, VariableDataQuantityUnit::ReservedFd3b, |_| 0),
+    new_vifd_entry!(0x3c, VariableDataQuantityUnit::ReservedFd3c, |_| 0),
+    new_vifd_entry!(0x3d, VariableDataQuantityUnit::ReservedFd3c, |_| 0),
+    new_vifd_entry!(0x3e, VariableDataQuantityUnit::ReservedFd3c, |_| 0),
+    new_vifd_entry!(0x3f, VariableDataQuantityUnit::ReservedFd3c, |_| 0),
+    new_vifd_entry!(0x40, VariableDataQuantityUnit::Volts, |b| ((b & 0x0f) - 9)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x41, VariableDataQuantityUnit::Volts, |b| ((b & 0x0f) - 9)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x42, VariableDataQuantityUnit::Volts, |b| ((b & 0x0f) - 9)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x43, VariableDataQuantityUnit::Volts, |b| ((b & 0x0f) - 9)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x44, VariableDataQuantityUnit::Volts, |b| ((b & 0x0f) - 9)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x45, VariableDataQuantityUnit::Volts, |b| ((b & 0x0f) - 9)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x46, VariableDataQuantityUnit::Volts, |b| ((b & 0x0f) - 9)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x47, VariableDataQuantityUnit::Volts, |b| ((b & 0x0f) - 9)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x48, VariableDataQuantityUnit::Volts, |b| ((b & 0x0f) - 9)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x49, VariableDataQuantityUnit::Volts, |b| ((b & 0x0f) - 9)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x4a, VariableDataQuantityUnit::Volts, |b| ((b & 0x0f) - 9)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x4b, VariableDataQuantityUnit::Volts, |b| ((b & 0x0f) - 9)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x4c, VariableDataQuantityUnit::Volts, |b| ((b & 0x0f) - 9)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x4d, VariableDataQuantityUnit::Volts, |b| ((b & 0x0f) - 9)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x4e, VariableDataQuantityUnit::Volts, |b| ((b & 0x0f) - 9)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x4f, VariableDataQuantityUnit::Volts, |b| ((b & 0x0f) - 9)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x50, VariableDataQuantityUnit::Ampers, |b| ((b & 0x0f)
+        - 12)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x51, VariableDataQuantityUnit::Ampers, |b| ((b & 0x0f)
+        - 12)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x52, VariableDataQuantityUnit::Ampers, |b| ((b & 0x0f)
+        - 12)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x53, VariableDataQuantityUnit::Ampers, |b| ((b & 0x0f)
+        - 12)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x54, VariableDataQuantityUnit::Ampers, |b| ((b & 0x0f)
+        - 12)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x55, VariableDataQuantityUnit::Ampers, |b| ((b & 0x0f)
+        - 12)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x56, VariableDataQuantityUnit::Ampers, |b| ((b & 0x0f)
+        - 12)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x57, VariableDataQuantityUnit::Ampers, |b| ((b & 0x0f)
+        - 12)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x58, VariableDataQuantityUnit::Ampers, |b| ((b & 0x0f)
+        - 12)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x59, VariableDataQuantityUnit::Ampers, |b| ((b & 0x0f)
+        - 12)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x5a, VariableDataQuantityUnit::Ampers, |b| ((b & 0x0f)
+        - 12)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x5b, VariableDataQuantityUnit::Ampers, |b| ((b & 0x0f)
+        - 12)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x5c, VariableDataQuantityUnit::Ampers, |b| ((b & 0x0f)
+        - 12)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x5d, VariableDataQuantityUnit::Ampers, |b| ((b & 0x0f)
+        - 12)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x5e, VariableDataQuantityUnit::Ampers, |b| ((b & 0x0f)
+        - 12)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x5f, VariableDataQuantityUnit::Ampers, |b| ((b & 0x0f)
+        - 12)
+        .try_into()
+        .unwrap()),
+    new_vifd_entry!(0x60, VariableDataQuantityUnit::ResetCounter, |_| 0),
+    new_vifd_entry!(0x61, VariableDataQuantityUnit::CumulationCounter, |_| 0),
+    new_vifd_entry!(0x62, VariableDataQuantityUnit::ControlSignal, |_| 0),
+    new_vifd_entry!(0x63, VariableDataQuantityUnit::DayOfWeek, |_| 0),
+    new_vifd_entry!(0x64, VariableDataQuantityUnit::WeekNumber, |_| 0),
+    new_vifd_entry!(0x65, VariableDataQuantityUnit::TimePointOfDayChange, |_| 0),
+    new_vifd_entry!(
+        0x66,
+        VariableDataQuantityUnit::StateOfParameterActivation,
+        |_| 0
+    ),
+    new_vifd_entry!(
+        0x67,
+        VariableDataQuantityUnit::SpecialSupplierInformation,
+        |_| 0
+    ),
+    new_vifd_entry!(
+        0x68,
+        VariableDataQuantityUnit::DurationSinceLastCumulation,
+        |_| 0
+    ),
+    new_vifd_entry!(
+        0x69,
+        VariableDataQuantityUnit::DurationSinceLastCumulation,
+        |_| 0
+    ),
+    new_vifd_entry!(
+        0x6a,
+        VariableDataQuantityUnit::DurationSinceLastCumulation,
+        |_| 0
+    ),
+    new_vifd_entry!(
+        0x6b,
+        VariableDataQuantityUnit::DurationSinceLastCumulation,
+        |_| 0
+    ),
+    new_vifd_entry!(0x6c, VariableDataQuantityUnit::OperatingTimeBattery, |_| 0),
+    new_vifd_entry!(0x6d, VariableDataQuantityUnit::OperatingTimeBattery, |_| 0),
+    new_vifd_entry!(0x6e, VariableDataQuantityUnit::OperatingTimeBattery, |_| 0),
+    new_vifd_entry!(0x6f, VariableDataQuantityUnit::OperatingTimeBattery, |_| 0),
+    new_vifd_entry!(
+        0x70,
+        VariableDataQuantityUnit::DateTimeOfBatteryChange,
+        |_| 0
+    ),
+    new_vifd_entry!(0x71, VariableDataQuantityUnit::ReservedFd71, |_| 0),
+    new_vifd_entry!(0x72, VariableDataQuantityUnit::ReservedFd71, |_| 0),
+    new_vifd_entry!(0x73, VariableDataQuantityUnit::ReservedFd71, |_| 0),
+    new_vifd_entry!(0x74, VariableDataQuantityUnit::ReservedFd71, |_| 0),
+    new_vifd_entry!(0x75, VariableDataQuantityUnit::ReservedFd71, |_| 0),
+    new_vifd_entry!(0x76, VariableDataQuantityUnit::ReservedFd71, |_| 0),
+    new_vifd_entry!(0x77, VariableDataQuantityUnit::ReservedFd71, |_| 0),
+    new_vifd_entry!(0x78, VariableDataQuantityUnit::ReservedFd71, |_| 0),
+    new_vifd_entry!(0x79, VariableDataQuantityUnit::ReservedFd71, |_| 0),
+    new_vifd_entry!(0x7a, VariableDataQuantityUnit::ReservedFd71, |_| 0),
+    new_vifd_entry!(0x7b, VariableDataQuantityUnit::ReservedFd71, |_| 0),
+    new_vifd_entry!(0x7c, VariableDataQuantityUnit::ReservedFd71, |_| 0),
+    new_vifd_entry!(0x7d, VariableDataQuantityUnit::ReservedFd71, |_| 0),
+    new_vifd_entry!(0x7e, VariableDataQuantityUnit::ReservedFd71, |_| 0),
+    new_vifd_entry!(0x7f, VariableDataQuantityUnit::ReservedFd71, |_| 0),
 ];

@@ -56,7 +56,7 @@ pub struct VfiTableRecord<'a> {
     pub unit: &'a str,
     pub units: VariableDataQuantityUnit,
     pub types: VifType,
-    pub magnitude: fn(u8) -> u8,
+    pub magnitude: fn(u8) -> i8,
     pub name: &'a str,
 }
 
@@ -84,4 +84,20 @@ impl<'a> VIFE<'a> {
             data: todo!(),
         }
     }
+}
+
+pub struct VifeFbTableRecord<'a> {
+    pub vifb: u8,
+    pub units: VariableDataQuantityUnit,
+    pub unit: &'a str,
+    pub quantity: &'a str,
+    pub magnitude: fn(u8) -> i8,
+}
+
+pub struct VifeFeTableRecord<'a> {
+    pub vife: u8,
+    pub units: VariableDataQuantityUnit,
+    pub unit: &'a str,
+    pub quantity: &'a str,
+    pub magnitude: fn(u8) -> i8,
 }
