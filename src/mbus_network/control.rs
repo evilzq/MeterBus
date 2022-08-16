@@ -38,7 +38,7 @@ pub const DIR: u8 = 0x40;
 pub const DIR_M2S: u8 = 0x40;
 pub const DIR_S2M: u8 = 0x00;
 
-#[derive(Debug, PartialEq, Eq, TryFromPrimitive)]
+#[derive(Debug, PartialEq, Eq, TryFromPrimitive, Clone, Copy)]
 #[repr(u8)]
 pub enum ControlInformation {
     //Mode 1 Mode 2                   Application                   Definition in

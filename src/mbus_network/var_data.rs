@@ -1,20 +1,18 @@
 use alloc::vec::Vec;
 use num_enum::TryFromPrimitive;
 
-use crate::checksum;
-
 use super::{
     control::ControlInformation,
     data_type::DataTypes,
     dif::DIF,
     dife::DIFE,
     frame::Frame,
+    function::Function,
     vif::{VIF, VIFE},
-    MBUS_FRAME_LONG_START, MBUS_FRAME_STOP,
 };
 
+#[derive(Debug, PartialEq, Eq, TryFromPrimitive, Clone, Copy)]
 #[repr(u8)]
-#[derive(Debug, PartialEq, Eq, TryFromPrimitive)]
 pub enum VariableDataRecordType {
     MbusDibDifWithoutExtension = 0x7F,
     MbusDibDifExtensionBit = 0x80,
@@ -24,6 +22,7 @@ pub enum VariableDataRecordType {
 }
 
 #[repr(u16)]
+#[derive(Debug, Clone, Copy)]
 pub enum VariableDataQuantityUnit {
     Undefined,
     EnergyWh,
@@ -197,13 +196,12 @@ pub enum VariableDataQuantityUnit {
 pub struct VariableDataLongParts<'a> {
     pub di_field: DIF,
     pub dife_field: Option<Vec<DIFE>>,
-    pub vi_field: VIF<'a>,
+    pub vi_field: Option<VIF<'a>>,
     pub vife_field: Option<Vec<VIFE<'a>>>,
     pub data: Option<Vec<u8>>,
 }
 
 pub struct VariableDataLongFrame<'a> {
-    pub strat: u8,
     pub control: u8,
     pub address: u8,
     pub control_infomation: ControlInformation,
@@ -211,10 +209,7 @@ pub struct VariableDataLongFrame<'a> {
     pub device_type: u8,
     pub transmission_counter: u8,
     pub status: u8,
-    pub data: &'a [u8],
     pub length: u8,
-    pub crc: u8,
-    pub stop: u8,
     pub manufacterer: [u8; 2],
     pub version: u8,
     pub signature: [u8; 2],
@@ -249,11 +244,14 @@ impl<'a> VariableDataLongFrame<'a> {
         control: u8,
         control_infomation: u8,
         address: u8,
-        data: &'a [u8],
+        data: Vec<u8>,
         length: u8,
-    ) -> Self {
-        Self {
-            strat: MBUS_FRAME_LONG_START,
+    ) -> Option<Self> {
+        let mut iter = data.iter();
+        if (ControlInformation::RespVariable as u8) != control_infomation {
+            return None;
+        }
+        let mut entity = Self {
             control,
             address,
             control_infomation: ControlInformation::try_from(control_infomation).unwrap(),
@@ -261,14 +259,236 @@ impl<'a> VariableDataLongFrame<'a> {
             device_type: 0,
             transmission_counter: 0,
             status: 0,
-            data,
             length,
-            crc: checksum(&[&[control, address, control_infomation], data].concat()),
-            stop: MBUS_FRAME_STOP,
-            manufacterer: todo!(),
-            version: todo!(),
-            signature: todo!(),
-            parts: todo!(),
+            manufacterer: [0, 0],
+            version: 0,
+            signature: [0, 0],
+            parts: Vec::new(),
+        };
+        let mut i = 0;
+        while i < entity.indentification_no.len() {
+            let u8_byte = iter.next();
+            match u8_byte {
+                Some(value) => entity.indentification_no[i] = *value,
+                None => {
+                    return None;
+                }
+            }
+            i += 1;
         }
+        i = 0;
+        while i < entity.manufacterer.len() {
+            let u8_byte = iter.next();
+            match u8_byte {
+                Some(value) => entity.manufacterer[i] = *value,
+                None => {
+                    return None;
+                }
+            };
+            i += 1;
+        }
+
+        match iter.next() {
+            Some(value) => entity.version = *value,
+            None => {
+                return None;
+            }
+        };
+
+        match iter.next() {
+            Some(value) => entity.device_type = *value,
+            None => {
+                return None;
+            }
+        };
+
+        match iter.next() {
+            Some(value) => entity.transmission_counter = *value,
+            None => {
+                return None;
+            }
+        };
+
+        match iter.next() {
+            Some(value) => entity.status = *value,
+            None => {
+                return None;
+            }
+        };
+
+        i = 0;
+        while i < entity.signature.len() {
+            let u8_byte = iter.next();
+            match u8_byte {
+                Some(value) => entity.signature[i] = *value,
+                None => {
+                    return None;
+                }
+            };
+            i += 1;
+        }
+
+        while let Some(raw_value) = iter.next() {
+            if let Ok(value) = VariableDataRecordType::try_from(*raw_value) {
+                match value {
+                    VariableDataRecordType::MbusDibDifIdleFiller => {
+                        entity.parts.push(VariableDataLongParts {
+                            di_field: DIF::new(*raw_value),
+                            dife_field: None,
+                            vi_field: None,
+                            vife_field: None,
+                            data: None,
+                        });
+                    }
+                    VariableDataRecordType::MbusDibDifManufacturerSpecific => {
+                        let mut data_vec: Vec<u8> = Vec::new();
+                        for a in iter.by_ref() {
+                            data_vec.push(*a);
+                        }
+                        entity.parts.push(VariableDataLongParts {
+                            di_field: DIF {
+                                data: value,
+                                data_type: DataTypes::NoData,
+                                function: Function::Instantaneous,
+                                storage_lsb: false,
+                                extension: false,
+                            },
+                            dife_field: None,
+                            vi_field: None,
+                            vife_field: None,
+                            data: Some(data_vec),
+                        });
+                    }
+                    VariableDataRecordType::MbusDibDifMoreRecordsFollow => {
+                        entity.parts.push(VariableDataLongParts {
+                            di_field: DIF::new(*raw_value),
+                            dife_field: None,
+                            vi_field: None,
+                            vife_field: None,
+                            data: None,
+                        });
+                    }
+                    _ => {
+                        let dif = DIF::new(*raw_value);
+                        let mut dife_vec: Vec<DIFE> = Vec::new();
+                        let mut vife_vec: Vec<VIFE> = Vec::new();
+                        let mut data_vec: Vec<u8> = Vec::new();
+
+                        let mut ext_flag = dif.extension;
+                        let mut i = 0;
+                        loop {
+                            if (i >= 10) | !ext_flag {
+                                break;
+                            }
+                            match iter.next() {
+                                Some(value) => {
+                                    let dife = DIFE::new(*value);
+                                    ext_flag = dife.extension;
+                                    dife_vec.push(dife);
+                                }
+                                None => return None,
+                            }
+                            i += 1;
+                        }
+                        #[allow(clippy::needless_late_init)]
+                        let vif: Option<VIF>;
+                        match iter.next() {
+                            Some(value) => vif = VIF::new(*value),
+                            None => return None,
+                        };
+                        if let Some(vf) = vif {
+                            ext_flag = vf.extension;
+                            i = 0;
+                            loop {
+                                if (i >= 10) | !ext_flag {
+                                    break;
+                                }
+                                match vf.types {
+                                    super::vif::VifType::PrimaryVIF => match iter.next() {
+                                        Some(value) => {
+                                            let vife = VIFE::new(*value);
+                                            ext_flag = vife.extension;
+                                            vife_vec.push(vife);
+                                        }
+                                        None => return None,
+                                    },
+                                    super::vif::VifType::PlainTextVIF => match iter.next() {
+                                        Some(value) => {
+                                            let vife = VIFE::new(*value);
+                                            ext_flag = vife.extension;
+                                            vife_vec.push(vife);
+                                        }
+                                        None => return None,
+                                    },
+                                    super::vif::VifType::LinearVIFExtensionFD => {
+                                        match iter.next() {
+                                            Some(value) => {
+                                                let vife = VIFE::new_vife_fd(*value);
+                                                if let Some(v) = vife {
+                                                    ext_flag = v.extension;
+                                                    vife_vec.push(v);
+                                                }
+                                            }
+                                            None => return None,
+                                        }
+                                    }
+                                    super::vif::VifType::LinearVIFExtensionFB => {
+                                        match iter.next() {
+                                            Some(value) => {
+                                                let vife = VIFE::new_vife_fb(*value);
+                                                if let Some(v) = vife {
+                                                    ext_flag = v.extension;
+                                                    vife_vec.push(v);
+                                                }
+                                            }
+                                            None => return None,
+                                        }
+                                    }
+                                    super::vif::VifType::AnyVIF => match iter.next() {
+                                        Some(value) => {
+                                            let vife = VIFE::new(*value);
+                                            ext_flag = vife.extension;
+                                            vife_vec.push(vife);
+                                        }
+                                        None => return None,
+                                    },
+                                    super::vif::VifType::ManufacturerSpecific => {
+                                        match iter.next() {
+                                            Some(value) => {
+                                                let vife = VIFE::new(*value);
+                                                ext_flag = vife.extension;
+                                                vife_vec.push(vife);
+                                            }
+                                            None => return None,
+                                        }
+                                    }
+                                }
+                                i += 1;
+                            }
+                        }
+                        if dif.data_type != DataTypes::VariableLength {
+                            let length =
+                                VariableDataLongFrame::get_length_in_bit_table(dif.data_type) / 8;
+                            i = 0;
+                            while i < length {
+                                match iter.next() {
+                                    Some(v) => data_vec.push(*v),
+                                    None => return None,
+                                }
+                                i += 1;
+                            }
+                        }
+                        entity.parts.push(VariableDataLongParts {
+                            di_field: dif,
+                            dife_field: Some(dife_vec),
+                            vi_field: vif,
+                            vife_field: Some(vife_vec),
+                            data: Some(data_vec),
+                        })
+                    }
+                }
+            }
+        }
+        Some(entity)
     }
 }

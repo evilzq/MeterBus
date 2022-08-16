@@ -72,7 +72,6 @@ pub enum FixedDataUnits {
 }
 
 pub struct FixedDataLongFrame<'a> {
-    pub strat: u8,
     pub control: u8,
     pub address: u8,
     pub control_infomation: ControlInformation,
@@ -82,8 +81,7 @@ pub struct FixedDataLongFrame<'a> {
     pub status: u8,
     pub data: &'a [u8],
     pub length: u8,
-    pub crc: u8,
-    pub stop: u8,
+
     pub counters_fixed: bool,
     pub units1: FixedDataUnits,
     pub units2: FixedDataUnits,

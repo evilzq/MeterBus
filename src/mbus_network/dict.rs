@@ -43,7 +43,7 @@ macro_rules! new_vifd_entry {
     };
 }
 
-pub const VIF_FIXED_TABLE: [VfiTableRecord; 61] = [
+pub static VIF_FIXED_TABLE: [VfiTableRecord; 61] = [
     new_vfi_entry!(
         0x02,
         1.0e0,
@@ -656,7 +656,7 @@ pub const VIF_FIXED_TABLE: [VfiTableRecord; 61] = [
     ),
 ];
 
-pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
+pub static VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
     new_vfi_entry!(
         0x00,
         1.0e-3,
@@ -1987,7 +1987,7 @@ pub const VIF_VARIABLE_TABLE: [VfiTableRecord; 130] = [
     ),
 ];
 
-pub const VIFE_FB_TABLE: [VifeFbTableRecord; 128] = [
+pub static VIFE_FB_TABLE: [VifeFbTableRecord; 128] = [
     new_vifb_entry!(0x00, VariableDataQuantityUnit::EnergyMWh, |b| ((b & 0x01)
         - 1)
     .try_into()
@@ -2501,7 +2501,7 @@ pub const VIFE_FB_TABLE: [VifeFbTableRecord; 128] = [
     }),
 ];
 
-pub const VIFE_FD_TABLE: [VifeFeTableRecord; 128] = [
+pub static VIFE_FD_TABLE: [VifeFeTableRecord; 128] = [
     new_vifd_entry!(0x00, VariableDataQuantityUnit::Credit, |b| ((b & 0x03) - 3)
         .try_into()
         .unwrap()),

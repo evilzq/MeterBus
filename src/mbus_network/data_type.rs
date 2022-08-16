@@ -1,7 +1,7 @@
 use num_enum::TryFromPrimitive;
 
 #[repr(u8)]
-#[derive(Debug, PartialEq, Eq, TryFromPrimitive)]
+#[derive(Debug, PartialEq, Eq, TryFromPrimitive, Clone, Copy)]
 pub enum DataTypes {
     NoData = 0,              // No data
     _8BitInteger = 1,        // 8 Bit Integer
