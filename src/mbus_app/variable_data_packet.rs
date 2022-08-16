@@ -1,4 +1,4 @@
-use alloc::vec::Vec;
+use alloc::{string::String, vec::Vec};
 
 use crate::mbus_network::{
     data_type::DataTypes,
@@ -7,29 +7,26 @@ use crate::mbus_network::{
     var_data::{VariableDataQuantityUnit, VariableDataRecordType},
 };
 
-pub struct UnitData<'a> {
+pub struct UnitData {
     pub units: VariableDataQuantityUnit,
-    pub unit: &'a str,
     pub magnitude: i8,
-    pub quantity: &'a str,
-    pub vif_string: &'a str,
+    pub quantity: String,
 }
 
-pub struct Record<'a> {
+pub struct Record {
     pub record_type: VariableDataRecordType,
     pub function: Function,
     pub storage_number: u64,
     pub traiff: u32,
     pub sub_unit: u16,
     pub value_data_type: DataTypes,
-    pub units: Vec<UnitData<'a>>,
+    pub value_data: Vec<u8>,
+    pub units: Vec<UnitData>,
     pub magnitide: i8,
     pub offset: i32,
 }
 
-pub struct VariableDataPacket<'a> {
-    pub access_demand: bool,
-    pub data_flow_control: bool,
+pub struct VariableDataPacket {
     pub address: u8,
 
     pub manufactor: u16,
@@ -40,5 +37,5 @@ pub struct VariableDataPacket<'a> {
     pub version: u8,
     pub status: u8,
     pub signature: u16,
-    pub records: Vec<Record<'a>>,
+    pub records: Vec<Record>,
 }
